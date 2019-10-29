@@ -7,27 +7,6 @@ var nativeAgents = { http: httpNative, https: httpsNative };
 
 // 定义流式操作
 module.exports = {
-
-  // 如果是 'DELETE' 或者 'OPTION'请求的话，需要进行的操作
-  deleteLength: function deleteLength(req, res, options) {
-    if ((req.method === 'DELETE' || req.method === 'OPTIONS') && !req.headers['content-length']) {
-      req.headers['content-length'] = '0'
-      delete req.headers['transfer-encoding']
-    }
-  },
-
-  // 超时处理
-  timeout: function timeout(req, res, options) {
-    if (options.timeout) {
-      req.socket.setTimeout(options.timeout)
-    }
-  },
-
-  // 对代理的 Header 做处理
-  XHeaders: function XHeaders(req, res, options) {
-    if (!options.xfwd) return
-  },
-
   stream: function stream(req, res, options, _, server, clb) {
     var agents = options.followRedirects ? followRedirects : nativeAgents;
     var http = agents.http;
